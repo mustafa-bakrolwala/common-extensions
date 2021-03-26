@@ -1,11 +1,12 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using CommonTypeExtensions.String;
+using System.Text;
 
 namespace Extensions.Test
 {
     [TestClass]
-    public class StringExtensionsTest
+    public partial class StringExtensionsTest
     {
         [DynamicData(nameof(GetDataForAfterFirstIndexOf), DynamicDataSourceType.Method)]
         [DataTestMethod]
@@ -47,41 +48,45 @@ namespace Extensions.Test
             Assert.AreEqual(result, actualResult);
         }
 
-
-        private static IEnumerable<string[]> GetDataForAfterFirstIndexOf()
+        [DynamicData(nameof(GetDataForIsEmpty), DynamicDataSourceType.Method)]
+        [DataTestMethod]
+        public void TestIsEmpty(string input, bool actualResult)
         {
-            yield return new string[] { "Mustafa", ",", "Mustafa" };
-            yield return new string[] { "Mustafa,Bakrolwala", ",", "Bakrolwala" };
-            yield return new string[] { "Mustafa,A,Bakrolwala", ",", "A,Bakrolwala" };
+            bool result = input.IsEmpty();
+            Assert.AreEqual(result, actualResult);
         }
 
-        private static IEnumerable<string[]> GetDataForAfterLastIndexOf()
+        [DynamicData(nameof(GetDataForIsNull), DynamicDataSourceType.Method)]
+        [DataTestMethod]
+        public void TestIsNull(string input, bool actualResult)
         {
-            yield return new string[] { "Mustafa", ",", "Mustafa" };
-            yield return new string[] { "Mustafa,Bakrolwala", ",", "Bakrolwala" };
-            yield return new string[] { "Mustafa,A,Bakrolwala", ",", "Bakrolwala" };
+            bool result = input.IsNull();
+            Assert.AreEqual(result, actualResult);
         }
 
-        private static IEnumerable<string[]> GetDataForBeforeFirstIndexOf()
+        [DynamicData(nameof(GetDataForBetweenString), DynamicDataSourceType.Method)]
+        [DataTestMethod]
+        public void TestBetweenString(string input, string start, string end, string actualResult)
         {
-            yield return new string[] { "Mustafa", ",", "" };
-            yield return new string[] { "Mustafa,Bakrolwala", ",", "Mustafa" };
-            yield return new string[] { "Mustafa,A,Bakrolwala", ",", "Mustafa" };
+            string result = input.Between(start, end);
+            Assert.AreEqual(result, actualResult);
         }
 
-        private static IEnumerable<string[]> GetDataForBeforeLastIndexOf()
+        [DynamicData(nameof(GetDataForBetweenInt), DynamicDataSourceType.Method)]
+        [DataTestMethod]
+        public void TestBetweenInt(string input, int start, int end, string actualResult)
         {
-            yield return new string[] { "Mustafa", ",", "" };
-            yield return new string[] { "Mustafa,Bakrolwala", ",", "Mustafa" };
-            yield return new string[] { "Mustafa,A,Bakrolwala", ",", "Mustafa,A" };
+            string result = input.Between(start, end);
+            Assert.AreEqual(result, actualResult);
         }
 
-        private static IEnumerable<object[]> GetDataForContainsFor()
+        [DynamicData(nameof(GetDataForSB), DynamicDataSourceType.Method)]
+        [DataTestMethod]
+        public void TestSB(string input, StringBuilder actualResult)
         {
-            yield return new object[] { "Mustafa", ",", 0 };
-            yield return new object[] { "Mustafa,Bakrolwala", ",", 1 };
-            yield return new object[] { "Mustafa,A,Bakrolwala", ",", 2 };
-            yield return new object[] { "the tree needed the water from the pump", "the", 3 };
+            StringBuilder result = input.ToStringBuilder();
+            Assert.AreEqual(result.ToString(), actualResult.ToString());
         }
+
     }
 }
